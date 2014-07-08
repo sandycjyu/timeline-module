@@ -1,0 +1,41 @@
+storyjs_jsonp_data = {
+	"timeline":
+	{
+		"headline":"User 3",
+		"type":"default",
+		"text":"emails",
+		"asset": {
+			"media":"",
+			"credit":"",
+			"caption":""
+		},
+		"date": [
+			{
+				"startDate":"2014,07,5",
+				"endDate":"2014,07,5",
+				"headline":"Purchase July 5",
+				"text":"",
+				"tag":"tag: purchase",
+				"asset": {
+					"media":"http://www.freshdirect.com",
+					"thumbnail":"css/grocerybag.jpg",
+					"credit":"Clickable link above",
+					"caption":""
+				}
+			},
+			{
+				"startDate":"2014,07,7",
+				"endDate":"2014,07,7",
+				"headline":"Nutritionist Feedback",
+				"text":"",
+				"tag":"feedback",
+				"asset": {
+					"media":"http://localhost:8080/index.html#tabs-2",
+					"thumbnail":"css/apple.jpg",
+					"credit":"Clickable link above",
+					"caption":""
+				}
+			},
+		],
+	}
+}
