@@ -1,0 +1,195 @@
+<!DOCTYPE HTML>
+  <html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title> </title>
+    <!--[if IE]><script language="javascript" type="text/javascript" src="../excanvas.js"></script><![endif]-->
+    <link rel="stylesheet" href="css/jquery-ui-1.8.1.custom.css">
+    <link rel="stylesheet" href="css/jquery.jqplot.min.css">
+    <link rel="stylesheet" href="css/examples.css">
+    <link rel="stylesheet" type="text/css" href="http://cdn.knightlab.com/libs/timeline/latest/css/timeline.css">
+
+
+    <style type="text/css">
+    .ui-tabs-nav, .ui-accordion-header {
+      font-size: 12px;
+    }
+    
+    .ui-tabs-panel, .ui-accordion-content {
+      font-size: 14px;
+    }
+    
+    .jqplot-target {
+      font-size: 18px;
+    }
+    
+    body > table {
+      width: 900px;
+      margin-left:auto;
+      margin-right: auto;
+    }
+    body > table, body > table > tr, body > table > td {
+      width: 700px;
+      border none;
+    }
+    
+    td>p {
+      font-family:"Trebuchet MS",Arial,Helvetica,sans-serif;
+      font-size: 14px;
+    }
+
+    /*data label*/
+    #chart1 .jqplot-point-label {
+      border: 1.5px solid #aaaaaa;
+      padding: 1px 3px;
+      background-color: #eeccdd;
+    } 
+  </style>
+  </head>
+  <body>
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
+              <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+                <li class="ui-state-default ui-corner-top ui-tabs-selected ui-state-active"><a href="#tabs-1">Tab 1</a></li>
+                <li class="ui-state-default ui-corner-top"><a href="#tabs-2">Tab 2</a></li>
+              </ul>
+    
+              <div id="tabs-1" class="ui-tabs-panel ui-widget-content ui-corner-bottom">
+                   <p id="info3"></p>
+                   <div id="chart1" data-height="260px" data-width="480px" style="margin-top: 20px; margin-left: 20px; position: relative; height: 260px; width: 480px;" class="jqplot-target"></div>
+
+                    <div id="timeline-embed"></div>
+  
+              </div>
+    
+              <div id="tabs-2" class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide">
+                <p> email details here</p>             
+              </div>
+
+            </div> 
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+      
+    <!-- script src="js/jquery.js"></script>  -->
+    <!-- script src="js/jquery-1.4.2.min.js"></script> -->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="js/jquery-ui-1.8.1.custom.min.js"></script>
+    <script type="text/javascript" src="http://cdn.knightlab.com/libs/timeline/latest/js/storyjs-embed.js"></script>
+    <script type="text/javascript" src="http://cdn.knightlab.com/libs/timeline/latest/js/timeline.js"></script>
+
+    
+    <script src="js/jquery.jqplot.min.js"></script>
+    <script src="js/plugins/jqplot.cursor.min.js"></script>
+    <script src="js/plugins/jqplot.pieRenderer.min.js"></script>
+    <script src="js/plugins/jqplot.ohlcRenderer.min.js"></script>
+    <script src="js/plugins/jqplot.categoryAxisRenderer.min.js"></script>
+    <script src="js/plugins/jqplot.barRenderer.min.js"></script>
+    <script src="js/plugins/jqplot.pointLabels.min.js"></script>
+  
+
+
+<script type="text/javascript" language="javascript">
+  
+  $(document).ready(function(){
+    $.jqplot.config.enablePlugins = false;
+
+    var s1 = [9, 6, 7, 10];
+    var s2 = [1, 2, 3, 4];
+    var s3 = [14, 9, 3, 8];
+    
+    l4 = [['peech',3], ['cabbage', 2], ['bean', 4], ['orange', 5]];
+
+    // var seriesLabels = $(".jqplot-point-label").append( "<a href='#'> Email </a>")
+  
+    plot1 = $.jqplot('chart1', [s1, s2, s3], {
+      // Tell the plot to stack the bars.
+      stackSeries: true,
+      captureRightClick: true,
+      seriesDefaults:{
+        renderer:$.jqplot.BarRenderer,
+        rendererOptions: {
+            barMargin: 30,
+            highlightMouseDown: false
+        },
+        pointLabels: {show: false}
+      },
+      axes: {
+        xaxis: {
+            renderer: $.jqplot.CategoryAxisRenderer
+        },
+        yaxis: {
+          padMin: 0
+        }
+      },
+      legend: {
+        show: true,
+        location: 'e',
+        placement: 'outside'
+      }
+       // series:[
+       // {pointLabels:{
+       //    show: true,
+       //    labels: ["email", "email"]
+       //  }}],  
+    
+    });
+    // Bind a listener to the "jqplotDataClick" event.  Here, simply change
+    // the text of the info3 element to show what series and ponit were
+    // clicked along with the data for that point.
+    $('#chart1').bind('jqplotDataClick', 
+      function (ev, seriesIndex, pointIndex, data) {
+        $('#info3').html('series: '+seriesIndex+', point: '+pointIndex+', data: '+data);
+      }
+    ); 
+    $("#tabs").tabs(); 
+    
+    // plot1 = $.jqplot('chart1', [l1, l2, l3],  options);
+    
+    // plot2 = $.jqplot('chart2', [l4], {
+    //   height: 200,
+    //   width: 300,
+    //   series:[{renderer:$.jqplot.PieRenderer}],
+    //   legend:{show:true}
+    // });
+    
+    $('#tabs').bind('tabsshow', function(event, ui) {
+      if (ui.index == 1 && plot1._drawCount == 0) {
+        plot1.replot();
+      }
+      else if (ui.index == 2 && plot2._drawCount == 0) {
+        plot2.replot();
+      }
+    });
+  
+
+  // timeline.js
+  // var dataObject = {timeline: {headline: "Headline", type: "default"}}
+  // createStoryJS({
+  //                   type:       'timeline',
+  //                   width:      '800',
+  //                   height:     '600',
+  //                   source:     dataObject,
+  //                   embed_id:   'my-timeline'
+  //               });
+  // });
+    createStoryJS({
+          type:   'timeline',
+          width:    '600',
+          height:   '300',
+          source:   'timeline.jsonp',
+          embed_id: 'timeline-embed',
+          debug:    true,
+          css:      'css/timeline.css',     //OPTIONAL PATH TO CSS
+          js:       'js/timeline-min.js' 
+        });
+   });
+  
+  </script>
+  </body>
+  </html>
